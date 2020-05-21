@@ -97,9 +97,15 @@ class _MyHomePageState extends State<MyHomePage> {
              );
            }
 
-           return Padding(
-             padding: EdgeInsets.all(10),
-             child: Text('Title from Post JSON : ${snapshot.data.getRange(0, 10).toList()[0].title}'),
+           return ListView.builder(
+             itemCount: 10,
+             itemBuilder: (BuildContext context, int index) {
+               var item = snapshot.data[index];
+               return Padding(
+                 padding: EdgeInsets.all(10),
+                 child: Text('Title from Post JSON : ${item.title}'),
+               );
+             },
            );
          } else {
            return Center(child: CircularProgressIndicator());
