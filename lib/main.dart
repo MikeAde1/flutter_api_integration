@@ -89,7 +89,12 @@ class _MyHomePageState extends State<MyHomePage> {
          //callAPI();
          if(snapshot.connectionState == ConnectionState.done) {
            if(snapshot.hasError){
-             return Text("Error");
+             return Center(
+               child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Center(child: Text("An error has occurred")),
+               )
+             );
            }
 
            return Padding(
