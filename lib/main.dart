@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapiintegration/MyHomePageState.dart';
 
+import 'PageDetail.dart';
+
 
 void main() {
   runApp(MyApp());
 }
+
+const PageRoute = '/';
+const DetailRoute = '/location_detail';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -28,7 +33,25 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      onGenerateRoute: _routes(),
     );
+  }
+
+  RouteFactory _routes() {
+    return (settings) {
+      final Map<String, dynamic> arguments = settings.arguments;
+      Widget screen;
+      switch (settings.name) {
+        case PageRoute:
+          screen = HomePage();
+          break;
+        case DetailRoute:
+          screen = PageDetail(arguments['post']);
+          break;
+        default:
+          return null;
+      }
+      return MaterialPageRoute(builder: (BuildContext context) => screen);
+    };
   }
 }
