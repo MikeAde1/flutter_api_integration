@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'api/services.dart';
@@ -24,6 +25,8 @@ class HomePage extends StatelessWidget {
     });
   }
 
+  bool firstLoad = true;
+
   final GlobalKey<AsyncLoaderState> asyncLoaderState = new GlobalKey<AsyncLoaderState>();
 
   @override
@@ -31,7 +34,12 @@ class HomePage extends StatelessWidget {
     var _asyncLoader = new AsyncLoader(
       key: asyncLoaderState,
       initState: () async => await getAllPosts(),
-      renderLoad: () => Center(child: new CircularProgressIndicator()),
+      renderLoad: () {
+        if(firstLoad){
+          return new Center(child: CircularProgressIndicator());
+        }
+        return Container();
+      },
       renderError: ([error]) => getNoConnectionWidget(),
       renderSuccess: ({data}) => getListView(data),
     );
@@ -43,7 +51,12 @@ class HomePage extends StatelessWidget {
         title: Text("Api With Async"),
         centerTitle: true,
       ),
-      body: new Center(child: _asyncLoader)
+      body: new Scrollbar(
+          child: RefreshIndicator(
+            onRefresh: () => _handleRefresh(),
+            child: _asyncLoader,
+          )
+      )
     );
   }
 
@@ -75,6 +88,12 @@ class HomePage extends StatelessWidget {
 
   Widget getListView(List<Post> posts){
     //build list view
+    firstLoad = false;
     return new PostListItem(posts);
+  }
+
+  Future<Null> _handleRefresh() async {
+    asyncLoaderState.currentState.reloadState();
+    return null;
   }
 }
