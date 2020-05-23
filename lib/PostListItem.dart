@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'data/PostCover.dart';
+import 'main.dart';
 
 class PostListItem extends StatelessWidget {
   final List<Post> posts;
@@ -21,5 +22,10 @@ class PostListItem extends StatelessWidget {
         );
       },
     );
+  }
+
+  _onLocationTap(BuildContext context, Post post) {
+    Navigator.pushNamed(context, DetailRoute,
+        arguments: {"post": post});
   }
 }
