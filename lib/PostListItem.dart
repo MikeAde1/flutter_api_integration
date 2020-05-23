@@ -14,11 +14,24 @@ class PostListItem extends StatelessWidget {
     return ListView.builder(
       itemCount: posts.length,
       itemBuilder: (BuildContext context, int index) {
-        return Padding(
-          padding: EdgeInsets.all(10),
-          child: new Text(
-              "Here is the post: ${posts[index].title}",
-              style: TextStyle(color: Colors.deepOrange)),
+        return InkWell(
+            onTap: () => _onLocationTap(context, posts[index]),
+            child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Text.rich(
+                  TextSpan(
+                    text: "Here is the post:",
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: " ${posts[index].title}",
+                        style: TextStyle(
+                          color: Colors.deepOrange.withOpacity(0.8)
+                        )
+                      )
+                    ]
+              ),
+            )
+        )
         );
       },
     );
